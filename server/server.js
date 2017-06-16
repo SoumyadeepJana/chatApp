@@ -39,12 +39,18 @@ io.on("connect",(socket) =>
 {
     console.log("New user connected");
 
-   /* socket.emit("newMessage",
+    socket.emit("newMessage",
     {
-        from:"jana",
-        text:"hii",
-        createdAt:123
-    });*/
+        from:"Admin",
+        text:"Welcome to the chat app"
+    });
+
+    socket.broadcast.emit("newMessage",
+    {
+        from:"admin",
+        text:"New User Joined"
+    });
+   
 
     socket.on("createMessage",(message) => 
     {
