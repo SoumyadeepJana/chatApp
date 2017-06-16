@@ -31,13 +31,13 @@ socket.on("connect",function ()
     socket.on("newMessage",function (message) 
     {
          console.log(JSON.stringify(message,undefined,2));
-    })
+    });
 
-    socket.emit("createMessage",
+   /* socket.emit("createMessage",
     {
         to:"bittu",
         text:"hey bro!"
-    });
+    }); */
 });
 
 socket.on("disconnect",function () 

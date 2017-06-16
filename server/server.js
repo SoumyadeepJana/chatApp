@@ -39,16 +39,22 @@ io.on("connect",(socket) =>
 {
     console.log("New user connected");
 
-    socket.emit("newMessage",
+   /* socket.emit("newMessage",
     {
         from:"jana",
         text:"hii",
         createdAt:123
-    });
+    });*/
 
     socket.on("createMessage",(message) => 
     {
         console.log(JSON.stringify(message,undefined,2));
+        io.emit("newMessage",
+        {
+            from:message.from,
+            text:message.text,
+            timestamp:new Date().getTime()
+        });
     });
 
     socket.on("disconnect",() => 
