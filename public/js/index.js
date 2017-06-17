@@ -38,10 +38,15 @@ jQuery("#message-form").on("submit",function (e)
     e.preventDefault();
     socket.emit("createMessage",
     {
-        from:"User",
+        from:"USER",
         text:jQuery("[name=message]").val()
     },function() 
     {
-
+        jQuery("[name=message]").remove();
+        jQuery("button").remove();
+        var input = jQuery("<input type=text placeholder=Message name=message>") ;
+        var button = jQuery("<button>Send</button>");
+        jQuery("#message-form").append(input);
+        jQuery("#message-form").append(button);
     });
 });
