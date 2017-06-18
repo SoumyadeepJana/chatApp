@@ -2,6 +2,23 @@
 
 var socket = io();
 
+function scrollToBottom()
+{
+    var messages = jQuery("#messages");
+    var lastMessage = messages.children("li:last-child");
+    var scrollTop = messages.prop("scrollTop");
+    var clientHeight = messages.prop("clientHeight");
+    var scrollHeight = messages.prop("scrollHeight");
+    var lastMessageHeight = lastMessage.innerHeight();
+    var prevMessageHeight = lastMessage.prev().innerHeight();
+
+    if(clientHeight + scrollTop + lastMessageHeight + prevMessageHeight >= scrollHeight)
+    {
+        messages.scrollTop(scrollHeight);
+    }
+
+}
+
 socket.on("connect",function ()
 {
     console.log("Connected to server");
@@ -22,9 +39,12 @@ socket.on("disconnect",function ()
      console.log(JSON.stringify(message,undefined,2));
      var li = jQuery("<li></li>")
      li.text(`${message.from} [${timeStamp}] : ${message.text}`);
+     li.append("<br><br>")
      jQuery("#messages").append(li);
-     var i =0;
-    jQuery(window).blur(notify(message.text));
+     scrollToBottom();
+     //jQuery("#messages").append("<br><br>");
+     //var i =0;
+   // jQuery(window).blur(notify(message.text));
 
      
        // notify();
@@ -60,11 +80,12 @@ socket.on("newLocationMessage", function (locationMessage)
 {
     var timeStamp = moment(locationMessage.createdAt).format("h:mm a");
     var li = jQuery("<li></li>");
-    var anchor = jQuery('<a target=_blank>Location</a>');
+    var anchor = jQuery('<a target=_blank>My Current Location</a>');
     li.text(`${locationMessage.from} [${timeStamp}]: `);
     anchor.attr("href",`${locationMessage.url}`);
     li.append(anchor);
     jQuery("#messages").append(li);
+    scrollToBottom();
 });
 
 var locationButton = jQuery("#send-location");
@@ -103,7 +124,7 @@ locationButton.on("click",function()
 
 
 
-  var notify = (text) => {
+ /* var notify = (text) => {
     // If the user agreed to get notified
     // Let's try to send ten notifications
     if (window.Notification && Notification.permission === "granted") {
@@ -122,9 +143,9 @@ locationButton.on("click",function()
         Notification.requestPermission(function (permission) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        var notification = new Notification("New message",{tag:"soManyNotification",body:text,icon:"/image/chat.png"});
+        var notification = new Notification("ChatApp",{tag:"soManyNotification",body:text,icon:"/image/chat.png"});
       }
     });
   }
-  }
+  }*/
   
