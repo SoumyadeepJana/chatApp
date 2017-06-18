@@ -32,8 +32,7 @@ button:hover {
   color: white;
   padding: 10px;
 }
-
-button:disabled {
+.disabled {
   cursor: default;
   background: #698ea5;
 }

@@ -23,35 +23,38 @@ socket.on("disconnect",function ()
      var li = jQuery("<li></li>")
      li.text(`${message.from} [${timeStamp}] : ${message.text}`);
      jQuery("#messages").append(li);
+     var i =0;
+     jQuery(window).blur(notify);
+
+     
+       // notify();
+    
+
+    
  });
 
-  /* socket.emit("createMessage",
-    {
-        to:"bittu",
-        text:"hello"
-    },function () 
-    {
-        console.log("Got it");
-    }); */
 
 jQuery("#message-form").on("submit",function (e) 
 {
     e.preventDefault();
     var messageTextBox = jQuery("[name=message]");
-    socket.emit("createMessage",
-    {
-        from:"USER",
-        text:messageTextBox.val()
-    },function() 
-    {
-        messageTextBox.val("");
-        /*jQuery("#send").remove();
-        var input = jQuery("<input type=text placeholder=Message name=message>") ;
-        var button = jQuery("<button id=send>Send</button>");
-        jQuery("#message-form").append(input);
-        jQuery("#message-form").append(button);*/
-    });
-});
+    //console.log("hey",messageTextBox.val());
+ 
+        if(messageTextBox.val().length>0)
+        {
+                socket.emit("createMessage",
+                {
+                    from:"USER",
+                    text:messageTextBox.val()
+                },function() 
+                {
+                    messageTextBox.val("");
+            
+                });
+    
+}});
+
+
 
 socket.on("newLocationMessage", function (locationMessage) 
 {
@@ -71,8 +74,9 @@ locationButton.on("click",function()
        return alert("Your browser does not support geolocation");
 
     var locationButton = jQuery("#send-location");
+    locationButton.addClass("disabled");
     locationButton.text("Sending...");
-    locationButton.attr("disabled");
+    
 
     navigator.geolocation.getCurrentPosition(function (position) 
     {
@@ -83,11 +87,44 @@ locationButton.on("click",function()
             longitude:position.coords.longitude
         });
         locationButton.text("Send Location");
+        locationButton.removeClass("disabled");
+    
+
         
 
     },function () 
     {
         alert("Unable to fetch location");
         locationButton.text("Send Location");
+        locationButton.removeClass("disabled");
     });
 });
+
+
+
+
+  var notify = () => {
+    // If the user agreed to get notified
+    // Let's try to send ten notifications
+    if (window.Notification && Notification.permission === "granted") {
+      //var i = 0;
+      // Using an interval cause some browsers (including Firefox) are blocking notifications if there are too much in a certain time.
+     // var interval = window.setInterval(function () {
+        // Thanks to the tag, we should only see the "Hi! 9" notification 
+        var n = new Notification("New Message Recived", {tag: 'soManyNotification'});
+       // if (i++ == 9) {
+        //  window.clearInterval(interval);
+        //}
+      //}, 200);
+    }
+
+      else if (Notification.permission === "denied") {
+        Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        var notification = new Notification("New message",{tag:"soManyNotification"});
+      }
+    });
+  }
+  }
+  
