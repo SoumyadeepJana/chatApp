@@ -111,7 +111,7 @@ locationButton.on("click",function()
       // Using an interval cause some browsers (including Firefox) are blocking notifications if there are too much in a certain time.
      // var interval = window.setInterval(function () {
         // Thanks to the tag, we should only see the "Hi! 9" notification 
-        var n = new Notification("New Message Recived", {tag: 'soManyNotification'});
+        var n = new Notification("Chat App", {tag: 'soManyNotification',body:"New Message",icon:"/image/chat.png"});
        // if (i++ == 9) {
         //  window.clearInterval(interval);
         //}
@@ -122,7 +122,7 @@ locationButton.on("click",function()
         Notification.requestPermission(function (permission) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        var notification = new Notification("New message",{tag:"soManyNotification"});
+        var notification = new Notification("New message",{tag:"soManyNotification",body:"New Message",icon:"/image/chat.png"});
       }
     });
   }
