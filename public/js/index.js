@@ -24,7 +24,7 @@ socket.on("disconnect",function ()
      li.text(`${message.from} [${timeStamp}] : ${message.text}`);
      jQuery("#messages").append(li);
      var i =0;
-     jQuery(window).blur(notify);
+    jQuery(window).blur(notify(message.text));
 
      
        // notify();
@@ -103,7 +103,7 @@ locationButton.on("click",function()
 
 
 
-  var notify = () => {
+  var notify = (text) => {
     // If the user agreed to get notified
     // Let's try to send ten notifications
     if (window.Notification && Notification.permission === "granted") {
@@ -111,7 +111,7 @@ locationButton.on("click",function()
       // Using an interval cause some browsers (including Firefox) are blocking notifications if there are too much in a certain time.
      // var interval = window.setInterval(function () {
         // Thanks to the tag, we should only see the "Hi! 9" notification 
-        var n = new Notification("Chat App", {tag: 'soManyNotification',body:"New Message",icon:"/image/chat.png"});
+        var n = new Notification("Chat App", {tag: 'soManyNotification',body:text,icon:"/image/chat.png"});
        // if (i++ == 9) {
         //  window.clearInterval(interval);
         //}
@@ -122,7 +122,7 @@ locationButton.on("click",function()
         Notification.requestPermission(function (permission) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        var notification = new Notification("New message",{tag:"soManyNotification",body:"New Message",icon:"/image/chat.png"});
+        var notification = new Notification("New message",{tag:"soManyNotification",body:text,icon:"/image/chat.png"});
       }
     });
   }
