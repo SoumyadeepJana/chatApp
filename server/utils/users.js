@@ -1,5 +1,5 @@
 
-class Users
+/*class Users
 {
     constructor ()
     {
@@ -14,25 +14,56 @@ class Users
     }
 
     getUserList(room)
-    {
-        var users = this.users.filter((user) => {return room === user.room});
-        var usersArray = users.map((user) => {return user.name});
+    { 
+        var users = this.users.filter((user) => {room === user.room});
+        var usersArray = users.map((user) => {user.name});
         return usersArray;
     }
 
     getUser(id)
     {
-        var users = this.users.filter((user) => {return user.id === id})[0];
-        
+        return  this.users.filter((user) => {user.id === id});
+    
     }
 
     removeUser (id)
     {
-        var user = getUser(id);
+        var user = this.getUser(id);
         if(user)
-           this.users = this.users.filter((user) => {return user.id !== id});
+           this.users = this.users.filter((user) => {user.id !== id})[0];
         return user;
     }
+}
+
+module.exports = {Users};*/
+
+class Users {
+  constructor () {
+    this.users = [];
+  }
+  addUser (id, name, room) {
+    var user = {id, name, room};
+    this.users.push(user);
+    return user;
+  }
+  removeUser (id) {
+    var user = this.getUser(id);
+
+    if (user) {
+      this.users = this.users.filter((user) => user.id !== id);
+    }
+
+    return user;
+  }
+  getUser (id) {
+    return this.users.filter((user) => user.id === id)[0]
+  }
+  getUserList (room) {
+    var users = this.users.filter((user) => user.room === room);
+    var namesArray = users.map((user) => user.name);
+
+    return namesArray;
+  }
 }
 
 module.exports = {Users};
