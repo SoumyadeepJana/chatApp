@@ -80,6 +80,8 @@ socket.on("updateUserList",function (users)
      jQuery("#messages").append(html);
      scrollToBottom();
      
+     if(window.location.href !== `http://localhost:3000/chat.html?name=ff&room=gg`)
+        notify(message.text);
     
  });
 
@@ -164,7 +166,7 @@ locationButton.on("click",function()
 
 
 
- /* var notify = (text) => {
+  var notify = (text) => {
     // If the user agreed to get notified
     // Let's try to send ten notifications
     if (window.Notification && Notification.permission === "granted") {
@@ -187,5 +189,5 @@ locationButton.on("click",function()
       }
     });
   }
-  }*/
+  }
   
