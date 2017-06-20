@@ -80,7 +80,7 @@ socket.on("updateUserList",function (users)
      jQuery("#messages").append(html);
      scrollToBottom();
      
-     if(window.location.href !== `http://localhost:3000/chat.html?name=ff&room=gg`)
+     if(window.location.href !== `https://vast-dusk-37865.herokuapp.com/chat.html?name=ff&room=gg`)
         notify(message.text);
     
  });
