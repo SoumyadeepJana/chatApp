@@ -61,19 +61,25 @@ socket.on("updateUserList",function (users)
  {
      var timeStamp = moment(message.createdAt).format("h:mm a");
      console.log(JSON.stringify(message,undefined,2));
-     var li = jQuery("<li></li>")
+    /* var li = jQuery("<li></li>")
      li.text(`${message.from} [${timeStamp}] : ${message.text}`);
      li.append("<br><br>")
      jQuery("#messages").append(li);
-     scrollToBottom();
+     
      //jQuery("#messages").append("<br><br>");
      //var i =0;
-   // jQuery(window).blur(notify(message.text));
-
+     // jQuery(window).blur(notify(message.text));
+     // notify();*/
+     var template = jQuery("#message-template").html();
+     var html = Mustache.render(template,
+     {
+        text:message.text,
+        createdAt:timeStamp,
+        from:message.from
+     });
+     jQuery("#messages").append(html);
+     scrollToBottom();
      
-       // notify();
-    
-
     
  });
 
@@ -103,12 +109,22 @@ jQuery("#message-form").on("submit",function (e)
 socket.on("newLocationMessage", function (locationMessage) 
 {
     var timeStamp = moment(locationMessage.createdAt).format("h:mm a");
-    var li = jQuery("<li></li>");
+   /* var li = jQuery("<li></li>");
     var anchor = jQuery('<a target=_blank>My Current Location</a>');
     li.text(`${locationMessage.from} [${timeStamp}]: `);
     anchor.attr("href",`${locationMessage.url}`);
     li.append(anchor);
-    jQuery("#messages").append(li);
+    jQuery("#messages").append(li);*/
+    
+
+    var template = jQuery("#location-message-template").html();
+    var html = Mustache.render(template,
+    {
+        from:locationMessage.from,
+        url:locationMessage.url,
+        createdAt:timeStamp
+    });
+    jQuery("#messages").append(html);
     scrollToBottom();
 });
 

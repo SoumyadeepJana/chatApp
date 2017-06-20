@@ -49,6 +49,7 @@ io.on("connect",(socket) =>
       }
       else
       {
+         params.room = params.room.toLowerCase(); //Joins the same chat room irrespective of case of chat room name
          socket.join(params.room);
          users.removeUser(socket.id);
          users.addUser(socket.id,params.name,params.room);
@@ -61,7 +62,7 @@ io.on("connect",(socket) =>
 
    
 
-    socket.on("createMessage",(message,callback) => 
+    socket.on("createMessage",(message,callback) =>     //Event listener for a new message being sent from user
     {
        // console.log(JSON.stringify(message,undefined,2));
        var user = users.getUser(socket.id);
