@@ -166,7 +166,7 @@ locationButton.on("click",function()
 
 
 
-  var notify = (text) => {
+  function notify(text)  {
     // If the user agreed to get notified
     // Let's try to send ten notifications
     if (window.Notification && Notification.permission === "granted") {
